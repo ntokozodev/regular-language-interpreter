@@ -11,4 +11,4 @@ Using Thompson’s construction, the regular expression tree built must then be 
 denoted by the regular expression.
 Using the subset construction, the NFA built must then be converted to an equivalent DFA.
 
-Finally strings are tested to see to see if they are members of the language denoted by the regular expression using the DFA built.
+Finally strings are tested to see if they are members of the language denoted by the regular expression using the DFA built.
