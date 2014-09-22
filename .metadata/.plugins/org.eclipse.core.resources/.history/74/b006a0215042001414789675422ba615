@@ -1,0 +1,403 @@
+package tmachine;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.List;
+import java.util.Scanner;
+
+
+public class T16Machine 
+{
+	private short[] memory;
+	private short PC;
+	private short R_SP;
+	private short R_A;
+	private short R_X;
+	private boolean F_Z;
+	private boolean F_P;
+	private short b;
+
+	public T16Machine()
+	{
+		memory= new short[65536];
+	}
+	
+	public void load(TMachineProgram program) throws FileNotFoundException {
+		PC = (short) program.getStartLocation();
+		short currentAddress = PC;
+
+		List<Short> code = program.getCode();
+		for (Short a : code)
+		{
+			memory[currentAddress] = a;
+			currentAddress++;
+		}
+	}	
+	
+	public short getB() 
+	{
+		return b;
+	}
+
+	public void setB(short b) 
+	{
+		this.b = b;
+	}
+	
+	/* 0-NOP; 1-CLA; 2-CLX; 3-INC; 4-DEC; 5-INX; 6-DEX; 7-TAX; 8-INI; 9-INA; 10-OTI; 11-OTA;
+	 * 12-PSH; 13-POP; 14-RET; 15-HLT; 16-LDA; 17-LDX; 18-LDI; 19-STA; 20-STX; 21-ADD; 22-ADX; 23-ADI;
+	 * 24-SUB; 25-SBX; 26-SBI; 27-CMP; 28-CPX; 29-CPI; 30-LSP; 31-LSI; 32-BRN;
+	 * 33-BZE; 34-BNZ; 35-BPZ; 36-BNG; 37-JSR;*/
+	
+	public void run() throws IllegalOpcodeException {
+		boolean finished = false;
+
+		while (!finished) {
+			short currentOpcode = memory[PC];
+
+
+			switch (currentOpcode) {
+			case 0:
+				doNOP();
+				break;
+			case 1:
+				doCLA();
+				break;
+			case 2:
+				doCLX();
+				break;
+			case 3:
+				doINC();
+				break;
+			case 4:
+				doDEC();
+				break;
+			case 5:
+				doINX();
+				break;
+			case 6:
+				doDEX();
+				break;
+			case 7:
+				doTAX();
+				break;
+			case 8:
+				doINI();
+				break;
+			case 9:
+				doINA();
+				break;
+			case 10:
+				doOTI();
+				break;
+			case 11:
+				doOTA();
+				break;
+			case 12:
+				doPSH();
+				break;
+			case 13:
+				doPOP();
+				break;
+			case 14:
+				doRET();
+				break;
+			case 15:
+				finished=true;
+				break;
+			case 16:
+				doLDA();
+				break;
+			case 17:
+				doLDX();
+				break;
+			case 18:
+				doLDI();
+				break;
+			case 19:
+				doSTA();
+				break;
+			case 20:
+				doSTX();
+				break;
+			case 21:
+				doADD();
+				break;
+			case 22:
+				doADX();
+				break;
+			case 23:
+				doADI();
+				break;
+			case 24:
+				doSUB();
+				break;
+			case 25:
+				doSBX();
+				break;
+			case 26:
+				doSBI();
+				break;
+			case 27:
+				doCMP();
+				break;
+			case 28:
+				doCPX();
+				break;
+			case 29:
+				doCPI();
+				break;
+			case 30:
+				doLSP();
+				break;
+			case 31:
+				doLSI();
+				break;
+			case 32:
+				doBRN();
+				break;
+			case 33:
+				doBZE();
+				break;
+			case 34:
+				doBNZ();
+				break;
+			case 35:
+				doBPZ();
+				break;
+			case 36:
+				doBNG();
+				break;
+			case 37:
+				doJSR();
+				break;
+
+			default:
+				throw new IllegalOpcodeException(currentOpcode);
+			}
+
+			PC++;
+		}
+
+	}
+
+	private void setFlags(short value) {
+		F_Z = (value==0) ? true : false;
+		F_P = (value>=0 && value<=32767) ? true : false;
+		
+	}
+	
+	private void compare(short x) {
+		short c =  (short) (R_A-x);
+		setFlags(c);
+	}
+
+	private void push(short s) {
+		memory[R_SP--]=s;
+	}
+
+	private short pop() {
+		return memory[++R_SP];
+	}
+	
+	private void jumpTo(short address) {
+		PC = --address;
+	}
+
+// NO ARG INSTRUCTIONS
+
+	private void doNOP() {
+	}
+
+	private void doCLA() {
+		R_A = 0;
+	}
+
+	private void doCLX() {
+		R_X = 0;
+	}
+
+	private void doINC() {
+		R_A++;
+		setFlags(R_A);
+	}
+
+	private void doDEC() {
+		R_A--;
+		setFlags(R_A);
+	}
+
+	private void doINX() {
+		R_X++;
+		setFlags(R_X);		
+	}
+
+	private void doDEX() {
+		R_X--;
+		setFlags(R_X);		
+	}
+
+	private void doTAX() {
+		R_A = R_X;
+	}
+
+	private void doINI() {
+		Scanner s = new Scanner(System.in);
+		R_A=s.nextShort();
+	}
+
+	private void doINA() {
+		try {
+			R_A = (short) System.in.read();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void doOTI() {
+		System.out.println(R_A+"\n");
+	}
+
+	private void doOTA() {
+		System.out.print((char) R_A);
+	}
+
+	private void doPSH() {
+		push(R_A);
+	}
+
+	private void doPOP() {
+		R_A=pop();
+	}
+
+	private void doRET() {
+		PC=pop(); 
+	}
+
+	
+	//ARGS INSTRUCTIONS
+
+	private void doLDA() {
+		short b = memory[++PC];
+		R_A = memory[b];
+	}
+
+	private void doLDX() {
+		short b = memory[++PC];
+		R_A=memory[b+R_X];
+	}
+
+	private void doLDI() {
+		short b = memory[++PC];
+		R_A = b;
+	}
+
+	private void doSTA() {
+		short b = memory[++PC];
+		memory[b] = R_A;
+	}
+
+	private void doSTX() {
+		short b = memory[++PC];
+		memory[b+R_X]=R_A;
+	}
+
+	private void doADD() {
+		short b = memory[++PC];
+		R_A += memory[b];
+		setFlags(R_A);
+	}
+
+	private void doADX() {
+		short b = memory[++PC];
+		R_A +=memory[b+R_X];
+		setFlags(R_A);
+	}
+
+	private void doADI() {
+		short b = memory[++PC];
+		R_A += b;
+		setFlags(R_A);
+	}
+
+	private void doSUB() {
+		short b = memory[++PC];
+		R_A-=memory[b];
+		setFlags(R_A);		
+		
+	}
+
+	private void doSBX() {
+		short b = memory[++PC];
+		R_A-=memory[b+R_X];
+		setFlags(R_A);		
+	}
+
+	private void doSBI() {
+		short b = memory[++PC];
+		R_A-=b;
+		setFlags(R_A);		
+	}
+
+	private void doCMP() {
+		short b = memory[++PC];
+		compare(memory[b]);
+	}
+
+	private void doCPX() {
+		short b = memory[++PC];
+		compare(memory[b+R_X]);
+	}
+
+	private void doCPI() {
+		short b = memory[++PC];
+		compare(b);
+	}
+
+	private void doLSP() {
+		short b = memory[++PC];
+		push(memory[b]);
+	}
+
+
+	private void doLSI() {
+		short b = memory[++PC];
+		push(b);
+	}
+
+	private void doBRN() {
+		short b = memory[++PC];
+		jumpTo(b);
+	}
+
+
+	private void doBZE() {
+		short b = memory[++PC];
+		if(F_Z)
+			jumpTo(b);
+	}
+
+	private void doBNZ() {
+		short b = memory[++PC];
+		if(!F_Z)
+			jumpTo(b);
+	}
+
+	private void doBPZ() {
+		short b = memory[++PC];
+		if(F_P)
+			jumpTo(b);
+	}
+
+	private void doBNG() {
+		setB(memory[++PC]);
+		if(!F_P)doBRN();
+	}
+
+	private void doJSR() {
+		short b = memory[++PC];
+		push(PC);
+		jumpTo(b);
+	}
+}
+

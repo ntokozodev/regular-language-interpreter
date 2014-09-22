@@ -1,0 +1,12 @@
+/**
+ * 
+ */
+package za.ac.ukzn.cs.regexfa.finite_automaton;
+
+/**
+ * @author Ntokozo
+ *
+ */
+public class DeterministicFA {
+
+}

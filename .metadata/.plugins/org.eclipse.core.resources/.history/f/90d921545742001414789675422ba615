@@ -1,0 +1,15 @@
+package tmachine;
+
+public class IllegalOpcodeException extends Exception {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public IllegalOpcodeException(short currentOpcode) {
+		// TODO Auto-generated constructor stub
+		System.out.println("The instruction has not been documented");
+	}
+
+}

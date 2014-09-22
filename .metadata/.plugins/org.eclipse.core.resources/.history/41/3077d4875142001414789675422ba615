@@ -1,0 +1,16 @@
+package za.ac.ukzn.cs.regexfa;
+
+import java.util.Scanner;
+
+public class Application 
+{
+	public static void main(String[] args)
+	{
+		Scanner in = new Scanner(System.in);
+		String re = "";
+		System.out.print("Please enter regular expression: ");
+		re = in.next();
+		System.out.println("\nWelcome to RegexFA program processing...");
+		in.close();
+	}
+}

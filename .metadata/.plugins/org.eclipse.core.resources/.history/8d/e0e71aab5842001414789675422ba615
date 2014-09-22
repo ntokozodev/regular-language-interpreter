@@ -1,0 +1,12 @@
+/**
+ * 
+ */
+package za.ac.ukzn.cs.regexfa.nfa;
+
+/**
+ * @author Ntokozo
+ *
+ */
+public class NondeterministicFA {
+
+}

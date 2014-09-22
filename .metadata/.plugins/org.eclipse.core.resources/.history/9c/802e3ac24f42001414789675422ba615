@@ -1,0 +1,18 @@
+package za.ac.ukzn.cs.cti.t_machine.assembler;
+
+public class SyntaxException extends Exception {
+
+	public SyntaxException(String string) {
+		// TODO Auto-generated constructor stub
+	}
+
+	public SyntaxException() {
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3938465150941607850L;
+
+}
