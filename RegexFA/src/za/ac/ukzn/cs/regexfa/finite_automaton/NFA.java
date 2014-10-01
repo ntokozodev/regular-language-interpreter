@@ -6,10 +6,9 @@ import za.ac.ukzn.cs.regexfa.regular_expression.Regex;
  * @author Ntokozo
  *
  */
-public class NondeterministicFA 
+public class NFA 
 {
-
-	public NondeterministicFA(Regex r) 
+	public NFA(Regex r) 
 	{
 		// TODO Auto-generated constructor stub
 	}

@@ -5,10 +5,10 @@ package za.ac.ukzn.cs.regexfa.finite_automaton;
  * @author Ntokozo
  *
  */
-public class DeterministicFA 
+public class DFA 
 {
 
-	public DeterministicFA(NondeterministicFA nfa) 
+	public DFA(NFA nfa) 
 	{
 		// TODO Auto-generated constructor stub
 	}
