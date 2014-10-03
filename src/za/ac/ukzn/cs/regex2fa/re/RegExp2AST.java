@@ -3,8 +3,8 @@ package za.ac.ukzn.cs.regex2fa.re;
 import java.io.IOException;
 import java.text.ParseException;
 
-import za.ac.ukzn.cs.regexfa.lexer.Lexer;
-import za.ac.ukzn.cs.regexfa.lexer.Token;
+import za.ac.ukzn.cs.regex2fa.lexer.Lexer;
+import za.ac.ukzn.cs.regex2fa.lexer.Token;
 
 /**
  * 
