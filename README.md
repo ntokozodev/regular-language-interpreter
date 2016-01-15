@@ -1,7 +1,7 @@
 RegexFA
 =======
 
-Theory of Computation (COMP314) project - 2014.
+Theory of Computation (COMP314) project.
 
 The purpose of this assignment is to write a program which will allow a regular expression and a string to be inputted. The
 program should recognise whether the string is a member of the language which is denoted by the regular expression.
