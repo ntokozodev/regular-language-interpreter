@@ -10,7 +10,9 @@ import java.util.Iterator;
 import java.util.Stack;
 import java.util.TreeSet;
 
-
+/**
+ * DFA - Deterministic Finite Automaton 
+ */
 public class DFA 
 {
 	private static int state_count = 0;
